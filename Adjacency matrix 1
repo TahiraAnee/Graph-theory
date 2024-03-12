@@ -1,0 +1,36 @@
+#include<bits/stdc++.h>
+using namespace std;
+typedef long long int ll;
+#define optimize() ios_base::sync_with_stdio;cin.tie(0);cout.tie(0);
+
+int matrix[1000][1000];
+int main()
+{
+    optimize();
+    ll node,edge;
+    
+    cin>>node>>edge;
+    for(ll i=0;i<edge;i++)
+    {
+        ll x,y,cost;// weighted graph hole cost input nebo ,un-weighted hole always cost er man always 1.
+        cin>>x>>y>>cost;
+        matrix[x][y]=cost;
+        matrix[y][x]=cost;
+    }
+
+    /* u-v node er connection ache kina or cost koto ta
+    simply matrix[u][v] check korei jana jay.O(1)"time complexity"*/
+   // ll u,v;
+   // cin>>u>>v;
+
+    if(matrix[u][v]>0)
+    {
+        cout<<"Node u and v has a connection."<<endl;
+    }
+    else
+    {
+        cout<<"Their is no connection between those nodes."<<endl;
+    }
+    
+
+}
