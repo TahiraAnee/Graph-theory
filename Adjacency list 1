@@ -1,0 +1,34 @@
+#include<bits/stdc++.h>
+using namespace std;
+typedef long long int ll;
+#define optimize() ios_base::sync_with_stdio;cin.tie(0);cout.tie(0);
+#define MAX 100000 // maximum node
+vector<ll>edges[MAX];
+vector<ll>cost[MAX];
+int main()
+{
+    optimize();
+    ll numNodes,numEdges;
+    cin>>numNodes>>numEdges;
+    for(int i=0;i<numEdges;i++)
+    {
+        ll x,y;
+        cin>>x>>y;
+        edges[x].push_back(y);
+        edges[y].push_back(x);
+        cost[x].push_back(1); // weighted graph hole cost input nite hobe.
+        cost[y].push_back(1);
+
+    }
+
+    for(int i=1;i<=numNodes;i++)
+    {
+        ll size=edges[i].size();
+        cout<<i<<" = ";
+        for(int j=0;j<size;j++)
+        {
+            cout<<edges[i][j]<<" ";
+
+        }cout<<endl;
+    }
+}
