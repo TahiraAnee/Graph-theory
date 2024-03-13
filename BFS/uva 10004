@@ -1,0 +1,59 @@
+#include<bits/stdc++.h>
+using namespace std;
+typedef long long int ll;
+#define optimize() ios_base::sync_with_stdio;cin.tie(0);cout.tie(0);
+
+const int BLACK=0;
+const int WHITE=1;
+const int UNKNOWN=2;
+int main()
+{
+    optimize();
+    int n;
+    while (cin >> n, n != 0)
+    {
+        vector<ll>G[n];
+        vector<int> color(n, UNKNOWN);
+        bool isBipartite = true;
+        
+        int l;
+        cin >> l;
+        while ( l-- )
+        {
+            int u, v;
+            cin >> u >> v;
+            G[u].push_back(v);
+            G[v].push_back(u);
+        }
+
+        queue<int> q;
+        // Since the graph is strongly connected, we can reach all the
+        // vertices starting from any vertex.
+        color[0] = BLACK;
+        q.push(0);
+        while (!q.empty() && isBipartite)
+        {
+            int u = q.front();
+            q.pop();
+            for (int v:G[u])
+            {
+               
+                if (color[v] == color[u])
+                {
+                    isBipartite = false;
+                    break;
+                }
+                else if (color[v] == UNKNOWN)
+                {
+                    color[v] = 1 - color[u]; 
+                    q.push(v);
+                }
+            }
+        }
+        if (isBipartite)
+            cout << "BICOLORABLE." << endl;
+        else
+            cout << "NOT BICOLORABLE." << endl;
+    }
+    return 0;
+}
