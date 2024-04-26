@@ -45,7 +45,7 @@ int main()
         graph[x].push_back(y);
         graph[y].push_back(x);
     }
-    bfs(1);
+    bfs(1);// here 1 ke root node dhore niyechi.bfs shuru hobe root node theke.
     cout<<endl;
     int x;
     while(cin>>x && x!=0){
