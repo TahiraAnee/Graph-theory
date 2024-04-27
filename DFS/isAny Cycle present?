@@ -1,0 +1,66 @@
+#include<bits/stdc++.h>
+using namespace std;
+typedef long long int ll;
+#define optimize() ios_base::sync_with_stdio;cin.tie(0);cout.tie(0);
+const int N=1e5+123;
+vector<int>graph[N];
+vector<bool>vis(N);
+
+bool dfs(int node,int par)
+{
+    bool isLoopExists=false;
+    // take action after entering vertex
+    vis[node]=true;
+    
+    for(auto child:graph[node])
+    {
+        // take action after entering child
+        if(vis[child] && child==par)continue;
+        if(vis[child])return true;
+
+        isLoopExists |= dfs(child,node);
+        // take action after existing child 
+    }
+    return isLoopExists;
+    // take action after existing vertex;
+}
+int main()
+{
+    optimize();
+    int t;
+    cin >> t;
+    while(t--) {
+        int n,e;
+        cin>>n>>e;
+        for(int i=0;i<e;i++)
+        {
+            int x,y;
+            cin>>x>>y;
+            graph[x].push_back(y);
+            graph[y].push_back(x);
+
+
+        }
+        
+        int cnt=0;
+        bool isLoopExists=false;
+        for(int i=1;i<=n;i++)
+        {
+            if(vis[i])continue;
+           
+            if(dfs(i,0))
+            {
+                isLoopExists=true;
+                break;
+            }
+           
+            
+        }
+        
+        cout<<isLoopExists<<endl;
+
+
+        
+        
+    }
+}
