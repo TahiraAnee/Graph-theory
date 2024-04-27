@@ -1,0 +1,71 @@
+#include<bits/stdc++.h>
+using namespace std;
+typedef long long int ll;
+#define optimize() ios_base::sync_with_stdio;cin.tie(0);cout.tie(0);
+const int N=1e5+123;
+vector<int>graph[N];
+vector<bool>vis(N);
+vector<vector<int>>cc;//p->
+vector<int>current_cc;//p->
+void dfs(int node)
+{
+    // take action after entering vertex
+    vis[node]=true;
+    current_cc.push_back(node);//p->
+    
+    //cout<<node<<" ";
+    for(auto child:graph[node])
+    {
+        // take action after entering child
+        if(vis[child])continue;
+
+        dfs(child);
+        // take action after existing child 
+    }
+    // take action after existing vertex;
+}
+int main()
+{
+    optimize();
+    int t;
+    cin >> t;
+    while(t--) {
+        int n,e;
+        cin>>n>>e;
+        for(int i=0;i<e;i++)
+        {
+            int x,y;
+            cin>>x>>y;
+            graph[x].push_back(y);
+            graph[y].push_back(x);
+
+
+        }
+        
+        int cnt=0;
+
+        for(int i=1;i<=n;i++)
+        {
+            if(vis[i])continue;
+            current_cc.clear();// p->if you have to print the all connected components
+            dfs(i);
+            cc.push_back(current_cc);//p->
+            cnt++;// how many connected components or groups
+        }
+        cout<<cc.size()<<endl;//printing how many groups
+
+        for(auto c_cc:cc)// printing all groups
+        {
+            for(int vertex:c_cc)
+            {
+                cout<<vertex<<" ";
+            }
+            cout<<endl;
+        }
+        cout<<cnt<<endl;
+
+
+        
+        
+    }
+}
