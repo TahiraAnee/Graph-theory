@@ -1,0 +1,65 @@
+#include<bits/stdc++.h>
+using namespace std;
+typedef long long int ll;
+#define optimize() ios_base::sync_with_stdio;cin.tie(0);cout.tie(0);
+const int N=2e5+12;
+vector<vector<int>>adj[N];
+vector<pair<int,int>>mst;
+typedef  pair<int, int> triplets;
+
+void prims(int s,int n)
+{
+    priority_queue<triplets,vector<triplets>,greater<triplets>>pq;
+
+    vector<int>vis(n,0);
+    pq.push({0,s});//{wt,node};
+    int sum=0;
+
+    while(!pq.empty())
+    {
+        auto it=pq.top();
+        pq.pop();
+        int node= it.second;
+        int wt=it.first;
+
+        if(vis[node]==1)continue;
+        
+ 
+        vis[node]=1;
+        sum+=wt;
+
+        for(auto it:adj[node])
+        {
+            int adjNode=it[0];
+            int ewt=it[1];
+            
+            if(!vis[adjNode])
+            {
+                pq.push({ewt,adjNode});
+            }
+        }
+    }
+
+    cout<<sum<<endl;
+
+    
+}
+int main()
+{
+    optimize();
+
+        int n,e;
+        cin>>n>>e;
+        
+        for(int i=0;i<e;i++)
+        {
+            int u,v,w;
+            cin>>u>>v>>w;
+            adj[u].push_back({v,w});
+            adj[v].push_back({u,w});
+        }
+
+        int source;
+        cin>>source;
+        prims(source,n);
+}
