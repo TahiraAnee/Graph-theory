@@ -1,0 +1,62 @@
+#include<stdio.h>
+#define N 10000
+int parent[N];
+ int size[N];
+
+void makeTree(int v)
+{
+    for(int i=1;i<=v;i++)
+    {
+        parent[i]=i;
+        size[i]=1;
+  
+    }
+}
+int find(int v)
+{
+    if(v==parent[v])return v;
+    //path compression
+    return parent[v]=find(parent[v]);
+}
+
+void unionBYsize(int a,int b)
+{
+    int ap=find(a);//left tree
+    int bp=find(b);//right tree
+    // choto tree ke boro tree er sathe jog korte hobe
+
+    if(ap!=bp)
+    {
+        if(size[ap]<size[bp])
+        {
+            int temp=ap;
+            ap=bp;
+            bp=temp;
+        }
+        parent[bp]=ap;
+        size[ap]+=size[bp];
+    }
+
+}
+
+int main()
+{
+    
+    int n,k;
+    scanf("%d %d",&n,&k);
+    makeTree(n);
+    while(k--)
+    {
+        int u,v;
+        scanf("%d %d",&u,&v);
+        unionBYsize(u,v);
+    }
+    int connected_comp=0;
+    for(int i=1;i<=n;i++)
+    {
+        if(find(i)==i)connected_comp++;
+    }
+    printf("%d\n",connected_comp);
+
+    
+}
