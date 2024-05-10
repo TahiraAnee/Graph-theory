@@ -1,0 +1,77 @@
+#include<bits/stdc++.h>
+using namespace std;
+typedef long long int ll;
+#define optimize() ios_base::sync_with_stdio;cin.tie(0);cout.tie(0);
+
+const int N = 1e5+123;
+int parent[N];
+ int size[N];
+
+
+void makeTree(int v)
+{
+    for(int i=1;i<=v;i++)
+    {
+        parent[i]=i;
+        size[i]=1;
+       
+    }
+}
+int find(int v)
+{
+    if(v==parent[v])return v;
+    //path compression
+    return parent[v]=find(parent[v]);
+}
+
+void unionBYsize(int a,int b)
+{
+    int ap=find(a);//left tree
+    int bp=find(b);//right tree
+    // choto tree ke boro tree er sathe jog korte hobe
+
+    if(ap!=bp)
+    {
+        if(size[ap]<size[bp])
+        {
+            int temp=ap;
+            ap=bp;
+            bp=temp;
+        }
+        parent[bp]=ap;
+        size[ap]+=size[bp];
+    }
+
+}
+
+int main()
+{
+    optimize();
+    int n,k;
+   cin>>n>>k;
+   vector<pair<int,pair<int,int>>>edges;
+    makeTree(n);
+    while(k--)
+    {
+        int u,v,wt;
+       cin>>u>>v>>wt;
+      edges.push_back({wt,{u,v}});
+    }
+
+    sort(edges.begin(),edges.end());
+    int cost=0;
+    for(auto &edge:edges)
+    {
+        int wt=edge.first;
+        int u=edge.second.first;
+        int v=edge.second.second;
+        if(find(u)==find(v))continue;
+        unionBYsize(u,v);
+        cost+=wt;
+        cout<<u<<" "<<v<<endl;
+    }
+    cout<<cost<<endl;
+ 
+}
+
+// kruskals algorithm in dsu
