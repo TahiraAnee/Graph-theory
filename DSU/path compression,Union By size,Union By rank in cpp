@@ -1,0 +1,89 @@
+#include<bits/stdc++.h>
+using namespace std;
+typedef long long int ll;
+#define optimize() ios_base::sync_with_stdio;cin.tie(0);cout.tie(0);
+const int N = 1e5+123;
+int parent[N];
+ int size[N];
+int rnk[N];
+
+void makeTree(int v)
+{
+    for(int i=1;i<=v;i++)
+    {
+        parent[i]=i;
+        size[i]=1;
+        rnk[i]=0;
+    }
+}
+int find(int v)
+{
+    if(v==parent[v])return v;
+    //path compression
+    return parent[v]=find(parent[v]);
+}
+// void unionBYrank(int a,int b)
+// {
+//     int ap=find(a);
+//     int bp=find(b);
+    
+//     // Put smaller ranked item under 
+//     // bigger ranked item if ranks are 
+//     // different 
+//     if(ap!=bp)
+//     {
+//         if(rnk[ap]<rnk[bp])
+//         {
+//             swap(ap,bp);
+           
+//         }
+//          parent[bp]=ap;
+//         if(rnk[ap]==rnk[bp])rnk[ap]++;
+
+//     }
+    
+// }
+void unionBYsize(int a,int b)
+{
+    int ap=find(a);//left tree
+    int bp=find(b);//right tree
+    // choto tree ke boro tree er sathe jog korte hobe
+
+    if(ap!=bp)
+    {
+        if(size[ap]<size[bp])
+        {
+            swap(ap,bp);
+        }
+        parent[bp]=ap;
+        size[ap]+=size[bp];
+    }
+
+}
+// O(alpha(n))
+// amortized time complexity
+// reverse  ackermann funtion 
+// er value onek slowly increse hoy
+// almost constant
+int main()
+{
+    optimize();
+    int n,k;
+    cin>>n>>k;
+    makeTree(n);
+    while(k--)
+    {
+        int u,v;
+        cin>>u>>v;
+        //unionBYrank(u,v);
+        unionBYsize(u,v);
+    }
+    int connected_comp=0;
+    for(int i=1;i<=n;i++)
+    {
+        if(find(i)==i)connected_comp++;
+    }
+    cout<<connected_comp<<endl;
+
+    
+}
