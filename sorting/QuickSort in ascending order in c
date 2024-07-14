@@ -1,0 +1,60 @@
+#include<stdio.h>
+typedef long long int ll;
+
+int partition(ll ar[],ll low,ll high)
+{
+    int pivot=ar[low];
+    ll i=low;
+    ll j=high;
+
+    while(i<j)
+    {
+        while(ar[i]>=pivot && i<=high-1)
+        {
+            i++;
+        }
+        while(ar[j]<pivot && j>=low+1)
+        {
+            j--;
+        }
+
+        if(i<j)
+        {
+            ll temp=ar[i];
+            ar[i]=ar[j];
+            ar[j]=temp;
+            
+        }
+    }
+
+    ll temp=ar[low];
+    ar[low]=ar[j];
+    ar[j]=temp;
+    return j;
+}
+void quickSort(ll ar[],ll low, ll high)
+{
+    if(low<high)
+    {
+        int pIndex=partition(ar,low,high);
+        quickSort(ar,low,pIndex-1);
+        quickSort(ar,pIndex+1,high);
+    }
+}
+int main()
+{
+    ll n;
+    scanf("%lld",&n);
+    ll ar[n+1];
+    for(ll i=0;i<n;i++)
+    {
+        scanf("%lld",&ar[i]);
+    }
+    quickSort(ar,0,n-1);
+
+    for(ll i=0;i<n;i++)
+    {
+        printf("%lld ",ar[i]);
+    }printf("\n");
+
+}
