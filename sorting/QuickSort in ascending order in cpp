@@ -1,0 +1,59 @@
+#include<bits/stdc++.h>
+using namespace std;
+typedef long long int ll;
+int partition(vector<ll>&v,ll low,ll high)
+{
+    int pivot=v[low];
+    int i=low;
+    int j=high;
+    while(i<j)
+    {
+        while(v[i]<=pivot && i<=high-1)
+        {
+            i++;
+        }
+
+        while(v[j]>pivot && j>=low+1)
+        {
+            j--;
+        }
+
+        if(i<j)
+        {
+            swap(v[i],v[j]);
+        }
+
+    }
+    swap(v[low],v[j]);
+    return j;
+
+}
+void quickSort(vector<ll>&v,ll low,ll high)
+{
+    if(low<high)
+    {
+        int pIndex=partition(v,low,high);
+        quickSort(v,low,pIndex-1);
+        quickSort(v,pIndex+1,high);
+    }
+}
+int main()
+{
+
+    ll n;
+    cin>>n;
+    vector<ll>v(n);
+    for(int i=0;i<n;i++)
+    {
+        cin>>v[i];
+    }
+    quickSort(v,0,n-1);
+
+
+    for(int i=0;i<n;i++)
+    {
+        cout<<v[i]<<" ";
+    }cout<<endl;
+
+
+}
