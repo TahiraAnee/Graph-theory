@@ -1,9 +1,5 @@
-#include<bits/stdc++.h>
-using namespace std;
-typedef long long int ll;
-#define pb push_back
-#define rep(i,n) for (int i = 0; i < (n); ++i)
-#define all(v) (v).begin(),(v).end()
+#include<stdio.h>
+
 const int mx=1e4;
 struct bellman{
     int u;
@@ -12,52 +8,58 @@ struct bellman{
 };
 int main()
 {
-    ios_base::sync_with_stdio(0);
-    cin.tie(0);
+    
     int v,e;
-    cin>>v>>e;
-    vector<bellman>V;
+    scanf("%d %d",&v,&e);
+     struct bellman V[v+1];
+    int j=0;
     for(int i=0;i<e;i++)
     {
         int a,b,c;
-        cin>>a>>b>>c;
-        V.push_back({a,b,c});
+        scanf("%d %d %d",&a,&b,&c);
+        V[i].u=a;
+        V[i].v=b;
+        V[i].wt=c;
     }
     int s;
-    cin>>s;
-    vector<int>ans(v,1e8);
+    scanf("%d",&s);
+    int ans[v+1];
+    for(int i=0;i<v+1;i++)
+    {
+        ans[i]=mx;
+    }
     ans[s]=0;
    // cout<<V.size()<<endl;
     for(int i=0;i<v-1;i++)
     {
-        for(auto it:V)
+        for(int i=0;i<v;i++)
         {
-            int sn=it.u;
-            int dn=it.v;
-            int wtsd=it.wt;
+            int sn=V[i].u;
+            int dn=V[i].v;
+            int wtsd=V[i].wt;
 
-            if(ans[sn]!=1e8 && ans[sn]+wtsd<ans[dn])
+            if(ans[sn]!=mx && ans[sn]+wtsd<ans[dn])
             {
                 ans[dn]=ans[sn]+wtsd;
             }
         }
     }
 
-       for(auto it:V)
+       for(int i=0;i<v;i++)
         {
-            int sn=it.u;
-            int dn=it.v;
-            int wtsd=it.wt;
+            int sn=V[i].u;
+            int dn=V[i].v;
+            int wtsd=V[i].wt;
 
             if(ans[sn]!=1e8 && ans[sn]+wtsd<ans[dn])
             {
-                cout<<"The graph has a negative cycle\n";
-                return 0;
+               printf("The graph has a negative cycle\n");
+               return 0;
             }
         }
     
-    for(auto it:ans)cout<<it<<" ";
-    cout<<endl;
+    for(int i=0;i<v;i++)printf("%d ",ans[i]);
+    printf("\n");
 
 
 
