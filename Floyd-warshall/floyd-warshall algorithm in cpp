@@ -1,0 +1,57 @@
+#include<bits/stdc++.h>
+using namespace std;
+typedef long long int ll;
+#define pb push_back
+#define rep(i,n) for (int i = 0; i < (n); ++i)
+#define all(v) (v).begin(),(v).end()
+const int INF=99999;
+int32_t main()
+{
+    
+        int n,e;
+        cin>>n>>e;
+        int adj_mat[n][n];
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+                adj_mat[i][j]=INF;
+            }
+        }
+        for(int i=0;i<e;i++)
+        {
+            int u,v,w;
+            cin>>u>>v>>w;
+            adj_mat[u][v]=w;
+        }
+
+        for(int via =0;via<n;via++)
+        {
+            for(int i=0;i<n;i++)
+            {
+                for(int j=0;j<n;j++)
+                {
+                    if(i==j)
+                    {
+                        adj_mat[i][j]=0;
+                        continue;
+                    }
+                    if(adj_mat[i][via]+adj_mat[via][j]<adj_mat[i][j])
+                    {
+                       adj_mat[i][j] = adj_mat[i][via]+adj_mat[via][j];
+                    }
+                }
+            }
+        }
+
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+                if(adj_mat[i][j]==INF)adj_mat[i][j]=-1;
+                cout<<adj_mat[i][j]<<" ";
+            }cout<<endl;
+        }cout<<endl;
+        
+    
+}
