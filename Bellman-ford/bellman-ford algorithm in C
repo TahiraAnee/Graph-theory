@@ -1,0 +1,64 @@
+#include<bits/stdc++.h>
+using namespace std;
+typedef long long int ll;
+#define pb push_back
+#define rep(i,n) for (int i = 0; i < (n); ++i)
+#define all(v) (v).begin(),(v).end()
+const int mx=1e4;
+struct bellman{
+    int u;
+    int v;
+    int wt;
+};
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    int v,e;
+    cin>>v>>e;
+    vector<bellman>V;
+    for(int i=0;i<e;i++)
+    {
+        int a,b,c;
+        cin>>a>>b>>c;
+        V.push_back({a,b,c});
+    }
+    int s;
+    cin>>s;
+    vector<int>ans(v,1e8);
+    ans[s]=0;
+   // cout<<V.size()<<endl;
+    for(int i=0;i<v-1;i++)
+    {
+        for(auto it:V)
+        {
+            int sn=it.u;
+            int dn=it.v;
+            int wtsd=it.wt;
+
+            if(ans[sn]!=1e8 && ans[sn]+wtsd<ans[dn])
+            {
+                ans[dn]=ans[sn]+wtsd;
+            }
+        }
+    }
+
+       for(auto it:V)
+        {
+            int sn=it.u;
+            int dn=it.v;
+            int wtsd=it.wt;
+
+            if(ans[sn]!=1e8 && ans[sn]+wtsd<ans[dn])
+            {
+                cout<<"The graph has a negative cycle\n";
+                return 0;
+            }
+        }
+    
+    for(auto it:ans)cout<<it<<" ";
+    cout<<endl;
+
+
+
+}
