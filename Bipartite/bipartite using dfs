@@ -1,0 +1,31 @@
+bool dfs(ll u,ll color,vector<ll>&colors,vector<vector<ll>>&adj)
+{
+    colors[u]=color;
+    for(auto &v:adj[u])
+    {
+        if(colors[v]==-1)
+        {
+            if(!dfs(v,1-color,colors,adj))return false;
+        }else if(colors[u]==colors[v])return false;
+    }
+
+    return true;
+}
+bool isBipartite(ll n, vector<vector<ll>> edges)
+{
+    vector<ll> colors(n + 1, -1);
+    vector<vector<ll>> adj = constructAdjList(n + 1, edges);
+    queue<ll> q;
+    for (ll i = 1; i <= n; i++)
+    {
+        if(colors[i]==-1)
+        {
+            if(!dfs(i,0,colors,adj))
+            {
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
