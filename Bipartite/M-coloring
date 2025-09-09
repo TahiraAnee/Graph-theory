@@ -1,1 +1,57 @@
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long int ll;
+#define endl "\n"
+
+const ll N = 10000 + 12;
+ll adj[N][N];
+vector<ll> color(N, -1);
+
+bool isSafe(ll node, ll c, ll n) {
+    for (ll i = 1; i <= n; i++) {
+        if (adj[node][i] && color[i] == c)
+            return false;
+    }
+    return true;
+}
+
+bool possible(ll node, ll m, ll n) {
+    if (node > n) 
+        return true;
+
+    for (ll i = 1; i <= m; i++) {
+        if (isSafe(node, i, n)) {
+            color[node] = i;
+            if (possible(node + 1, m, n))
+                return true;
+            color[node] = -1;
+        }
+    }
+    return false;
+}
+
+int32_t main() {
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+
+    ll n, ed, m;
+    cin >> n >> ed >> m;
+    memset(adj, 0, sizeof(adj));
+
+    for (ll i = 0; i < ed; i++) {
+        ll u, v;
+        cin >> u >> v;
+        adj[u][v] = 1;
+        adj[v][u] = 1;
+    }
+
+    if (possible(1, m, n)) {
+        cout << "True\n";
+        cout << "Coloring: ";
+        for (ll i = 1; i <= n; i++) cout << color[i] << " ";
+        cout << endl;
+    } else {
+        cout << "False\n";
+    }
+}
 
