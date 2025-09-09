@@ -1,0 +1,33 @@
+bool isBipartite(ll n, vector<vector<ll>> edges)
+{
+    vector<ll> color(n + 1, -1);
+    vector<vector<ll>> adj = constructAdjList(n + 1, edges);
+    queue<ll> q;
+    for (ll i = 1; i <= n; i++)
+    {
+        if(color[i]==-1)
+        {
+            color[i]=0;
+            q.push(i);
+
+            while(!q.empty())
+            {
+                ll tp=q.front();
+                q.pop();
+
+                for(auto &u:adj[tp])
+                {
+                    if(color[u]==-1)
+                    {
+                        color[u]=1-color[tp];
+                        q.push(u);
+                    }else if(color[u]==color[tp]){
+                        return false;
+                    }
+                }
+            }
+        }
+    }
+
+    return true;
+}
